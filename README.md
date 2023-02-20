@@ -3,9 +3,9 @@
 
 ## What is Dojo-Pwn-college ?
 
-- pwn college is an educational platform for practicing The core cybersecurity Concepts.
+- pwn college is an educational platform for practicing the core cybersecurity Concepts.
 
-- Dojo are very famous modules for Binary Exploitation. 
+- Dojo's are very famous for Binary Exploitation. 
 
 - It was created by `Zardus (Yan Shoshitaishvili)` and `kanak (Connor Nelson)` & supported by Arizona State University USA.
 
