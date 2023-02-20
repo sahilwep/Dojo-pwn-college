@@ -253,19 +253,52 @@ hacker@babyhttp_level19:~$ curl http://localhost -d "a=886fa04846828cd7dc00918e0
 
 ```
 
-## babyhttp level 12
+## babyhttp level 22
 
 ```sh
 
 ```
 
-## babyhttp level 12
+## babyhttp level 23
+
+* resource : https://egeek.me/2014/08/17/sending-http-post-request-with-netcat/
+
 
 ```sh
 
 ```
 
-## babyhttp level 12
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
+
+```sh
+
+```
+## babyhttp level 24
 
 ```sh
 
