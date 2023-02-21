@@ -270,9 +270,22 @@ hacker@babyhttp_level19:~$ curl http://localhost -d "a=886fa04846828cd7dc00918e0
 
 ## babyhttp level 24
 
-```sh
+* Include form data with multiple fields in an HTTP request using python
 
+```python
+import requests as re
+url = 'http://localhost/?a=c61b7eb3605bc2a2fdbbcac920bdd414'
+headers = {'Host': '7d57292bb3804818fd35f4cdd856f474'}
+payload = {
+        "a": "e0e6b48903dd59d7c0f77f887431df19",
+        "b": "80d8a13c 9204c572&bd6c187a#48797890"
+}
+
+response = re.get(url,data= payload,headers=headers)
+print(response.text)
 ```
+* for passing multiple data we use dictionary & inside there is no need for url encoding....
+
 ## babyhttp level 24
 
 ```sh
