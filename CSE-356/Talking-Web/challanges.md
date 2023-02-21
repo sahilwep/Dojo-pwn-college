@@ -336,12 +336,14 @@ response = re.post(url,json={ "a": "51d97df3860e539198645151bac2b128" } ,headers
 print(response.text)
 ```
 
-## babyhttp level 24
+## babyhttp level 28
+
+* Include complex json data in an HTTP request using curl
 
 ```sh
 
 ```
-## babyhttp level 24
+## babyhttp level 29
 
 ```sh
 
