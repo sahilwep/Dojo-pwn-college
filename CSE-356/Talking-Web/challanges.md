@@ -286,21 +286,56 @@ print(response.text)
 ```
 * for passing multiple data we use dictionary & inside there is no need for url encoding....
 
-## babyhttp level 24
+## babyhttp level 25
+* Include json data in an HTTP request using curl
+* We use `-H` for Custom header..
+* We use json format to pass in `-d`
+
+> Example :
+```sh
+curl -X POST [URL]
+     -H "Content-Type: application/json"
+     -H "Accept: application/json" 
+     -d '{"Id": 7,"Customer":"Leo"}'
+```
+> Flag
+```sh
+curl http://localhost -i -H "Content-type: application/json" -d '{"a": "9d3c6f900acc66092fb1482d7dffc982"}'
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.2 Python/3.8.10
+Date: Tue, 21 Feb 2023 07:07:27 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{_here-flag_}
+
+```
+
+
+## babyhttp level 26
+
+* Include json data in an HTTP request using nc
+
 
 ```sh
 
 ```
-## babyhttp level 24
+## babyhttp level 27
+
+* Include json data in an HTTP request using python
 
 ```sh
+import requests as re
 
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+
+response = re.post(url,json={ "a": "51d97df3860e539198645151bac2b128" } ,headers=headers)
+
+print(response.text)
 ```
-## babyhttp level 24
 
-```sh
-
-```
 ## babyhttp level 24
 
 ```sh
