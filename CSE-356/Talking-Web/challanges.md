@@ -356,8 +356,22 @@ pwn.college{flag_here}
 
 ## babyhttp level 30
 
+* Include complex json data in an HTTP request using python
 ```sh
-
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+json_file = {
+                "a": "1d65d77c9b9ab358e71f955fbc014f5e",
+                "b": {
+                        "c": "9d684187",
+                        "d": [
+                                '313faf2d', 
+                                '36c82b6d 1ad5ad68&2744100f#091da8ec'
+     ]
+  }
+}
+response = re.post(url,json = json_file , headers = headers )
+print(response.text)
 ```
 
 ## babyhttp level 31
