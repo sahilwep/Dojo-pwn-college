@@ -341,14 +341,38 @@ print(response.text)
 * Include complex json data in an HTTP request using curl
 
 ```sh
+hacker@talking-web-level-28:~$ curl http://localhost -H "Content-type: application/json" -d '{"a": "b312602cde86740e565ba426bb397756","b": {"c": "eb15d203", "d": ["500141d9", "asdf"]}}'
+Incorrect json `b`: value `{'c': 'eb15d203', 'd': ['500141d9', 'asdf']}`, should be `{'c': 'eb15d203', 'd': ['500141d9', '64c77913 1ee662c8&e05df20d#c04ca65d']}`
 
+
+hacker@talking-web-level-28:~$ curl http://localhost -H "Content-type: application/json" -d '{"a": "b312602cde86740e565ba426bb397756","b": {"c": "eb15d203", "d": ["500141d9", "64c77913 1ee662c8&e05df20d#c04ca65d"]}}'
+pwn.college{flag_here}
 ```
 ## babyhttp level 29
 
 ```sh
 
 ```
-## babyhttp level 24
+
+## babyhttp level 30
+
+```sh
+
+```
+
+## babyhttp level 31
+
+```sh
+
+```
+
+## babyhttp level 32
+
+```sh
+
+```
+
+## babyhttp level 33
 
 ```sh
 
