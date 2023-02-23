@@ -376,17 +376,83 @@ print(response.text)
 
 ## babyhttp level 31
 
-```sh
+* Follow an HTTP redirect from HTTP response using curl
 
+```sh
+hacker@talking-web-level-31:~$ curl http://localhost -L
+pwn.college{-flag-here-}
 ```
+
 
 ## babyhttp level 32
 
+* Follow an HTTP redirect from HTTP response using python.
+
+```python
+import requests as re
+
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+json_file = {
+                "a": "1d65d77c9b9ab358e71f955fbc014f5e",
+                "b": {
+                        "c": "9d684187",
+                        "d": [
+                                '313faf2d', 
+                                '36c82b6d 1ad5ad68&2744100f#091da8ec'
+     ]
+  }
+}
+response = re.post(url,json = json_file , headers = headers )
+print(response.text)
+```
+
+## babyhttp level 34
+
+
 ```sh
 
 ```
 
-## babyhttp level 33
+## babyhttp level 35
+
+
+```sh
+
+```
+
+## babyhttp level 36
+
+
+```py
+import requests as re
+
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+data = {"name": "key"}
+json_file = {
+                "a": "1d65d77c9b9ab358e71f955fbc014f5e",
+                "b": {
+                        "c": "9d684187",
+                        "d": [
+                                '313faf2d',                                                                                          
+                                '36c82b6d 1ad5ad68&2744100f#091da8ec'
+     ]
+  }
+}
+response = re.post(url,json = json_file ,cookies=data,  headers = headers )
+print(response.text)
+```
+
+## babyhttp level 37
+
+* Make multiple requests in response to stateful HTTP responses using curl
+
+```sh
+
+```
+## babyhttp level 36
+
 
 ```sh
 
