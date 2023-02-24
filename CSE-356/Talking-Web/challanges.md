@@ -242,32 +242,108 @@ hacker@babyhttp_level19:~$ curl http://localhost -d "a=886fa04846828cd7dc00918e0
 ## babyhttp level 20
 
 * Include form data in an HTTP request using nc
+* adding multiple parameter will give the flag.
 
+> req.txt
+```palin
+hacker@talking-web-level-20:~$ cat req.txt 
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 35
+Content-Type: application/x-www-form-urlencoded
+User-Agent: curl/7.2
+
+a=9a75236d458278bffcf68048defb983c&b=calsd
+```
+> challange
 ```sh
+hacker@talking-web-level-20:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 400 BAD REQUEST
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:41:34 GMT
+Content-Length: 108
+Server: pwn.college
+Connection: close
+
+Incorrect form `a`: value `9a75236d458278bffcf68048defb983c
+`, should be `9a75236d458278bffcf68048defb983c`
+
+hacker@talking-web-level-20:~$ nano req.txt 
+
+hacker@talking-web-level-20:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:43:31 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{flag}
 
 ```
 
 ## babyhttp level 21
 
-```sh
+* Include form data in an HTTP request using python 
 
+```py
+import requests as re
+
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+data = {"a": "c61b7eb3605bc2a2fdbbcac920bdd414"}
+response = re.post(url , data=data )
+print(response.text)
 ```
-
 ## babyhttp level 22
 
-```sh
+* Include form data with multiple fields in an HTTP request using curl
 
+```sh
+hacker@talking-web-level-22:~$ curl http://localhost -X POST  -d "a=asdf"
+Incorrect form `a`: value `asdf`, should be `88869684b19951606208beea283619a7`
+
+hacker@talking-web-level-22:~$ curl http://localhost -X POST  -d "a=88869684b19951606208beea283619a7"
+Incorrect form `b`: value `None`, should be `7b36009a 7fba17d1&59e951b7#08e564f2`
+#  here I use url encoding for # & and blank space
+hacker@talking-web-level-22:~$ curl http://localhost -X POST  -d "a=88869684b19951606208beea283619a7&b=7b36009a%207fba17d1%2659e951b7%2308e564f2"
+pwn.college{flag-here}
 ```
 
 ## babyhttp level 23
+* Include form data with multiple fields in an HTTP request using nc
+* doning we need to add extra data at end to get the flag.
+* we need to aware about content length.
 
-* resource : https://egeek.me/2014/08/17/sending-http-post-request-with-netcat/
+```plain
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 87
+Content-Type: application/x-www-form-urlencoded
+User-Agent: curl/7.2
 
-
-```sh
-
+a=381bd8c7b22ab5e06388d7a7fb1b8a74&b=61de1d1f%20ddd96cfc%26cb138910%235d861478&c=sahil
 ```
 
+```sh
+hacker@talking-web-level-23:~$ nano req.txt 
+
+hacker@talking-web-level-23:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 18:08:59 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{falg-here}
+```
+* [resource](https://arpitbhayani.me/blogs/making-http-requests-using-netcat)
 ## babyhttp level 24
 
 * Include form data with multiple fields in an HTTP request using python
@@ -385,6 +461,57 @@ pwn.college{-flag-here-}
 
 
 ## babyhttp level 32
+* Follow an HTTP redirect from HTTP response using nc
+* After fails we paste the location in req.txt
+> req.txt
+```plain
+GET /904dc4a2a09e2b0676d528e04e5fce6f HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 43
+Accept: application/json, text/javascript, */*; q=0.01
+Cookie: cookie=1edf04ac5e3cd34b9716ceac6b943a28
+X-Requested-With: XMLHttpRequest
+User-Agent: curl/7.2
+Content-Type: application/json
+
+[{"a":"thei9023m","args":{"--json":true}}]
+```
+
+> challange
+```sh
+hacker@talking-web-level-32:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 302 FOUND
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:09:25 GMT
+Content-Length: 253
+Location: /904dc4a2a09e2b0676d528e04e5fce6f
+Server: pwn.college
+Connection: close
+
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/904dc4a2a09e2b0676d528e04e5fce6f">/904dc4a2a09e2b0676d528e04e5fce6f</a>. If not, click the link.
+
+hacker@talking-web-level-32:~$ nano req.txt 
+
+hacker@talking-web-level-32:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:11:50 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{flag-here}
+```
+
+
+## babyhttp level 33
 
 * Follow an HTTP redirect from HTTP response using python.
 
@@ -409,16 +536,82 @@ print(response.text)
 
 ## babyhttp level 34
 
+* Include a cookie from HTTP response using curl
 
+* In first attempt it show the redirection with set cookie this... so i used it..
 ```sh
+hacker@talking-web-level-34:~$ curl -i -L  http://localhost -b "name=value" 
+HTTP/1.1 302 FOUND
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 16:55:33 GMT
+Content-Length: 189
+Location: /
+Set-Cookie: cookie=3dc44b92983ffffaab9acd188aa904ed; Path=/
+Server: pwn.college
+Connection: close
 
+
+hacker@talking-web-level-34:~$ curl -i -L  http://localhost -b "cookie=3dc44b92983ffffaab9acd188aa904ed" 
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 16:56:25 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{flag-here}
 ```
+
 
 ## babyhttp level 35
 
+* Include a cookie from HTTP response using nc
 
+> req.txt
+```plain
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 43
+Accept: application/json, text/javascript, */*; q=0.01
+Cookie: cookie=1edf04ac5e3cd34b9716ceac6b943a28
+X-Requested-With: XMLHttpRequest
+User-Agent: curl/7.2
+Content-Type: application/json
+
+[{"a":"thei9023m","args":{"--json":true}}]
+```
+> challange
 ```sh
+hacker@talking-web-level-35:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 302 FOUND
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:02:18 GMT
+Content-Length: 189
+Location: /
+Set-Cookie: cookie=1edf04ac5e3cd34b9716ceac6b943a28; Path=/
+Server: pwn.college
+Connection: close
 
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/">/</a>. If not, click the link.
+
+hacker@talking-web-level-35:~$ nano req.txt 
+
+hacker@talking-web-level-35:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:04:28 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{flag-here}
 ```
 
 ## babyhttp level 36
