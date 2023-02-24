@@ -344,6 +344,7 @@ Connection: close
 pwn.college{falg-here}
 ```
 * [resource](https://arpitbhayani.me/blogs/making-http-requests-using-netcat)
+
 ## babyhttp level 24
 
 * Include form data with multiple fields in an HTTP request using python
@@ -392,11 +393,55 @@ pwn.college{_here-flag_}
 ## babyhttp level 26
 
 * Include json data in an HTTP request using nc
+* We need to check for the correct content length..
 
+```plain
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 42
+Content-Type: application/json
+User-Agent: curl/7.2.
+
+{"a": "25613d9ab74f71611ba6fec313b1c2ab"}
+```
 
 ```sh
+hacker@talking-web-level-26:~$ cat req.txt 
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 15
+Content-Type: application/json
+User-Agent: curl/7.2.
 
+{"a": "value"}
+
+hacker@talking-web-level-26:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 400 BAD REQUEST
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 18:16:50 GMT
+Content-Length: 80
+Server: pwn.college
+Connection: close
+
+Incorrect json `a`: value `value`, should be `25613d9ab74f71611ba6fec313b1c2ab`
+
+hacker@talking-web-level-26:~$ nano req.txt 
+
+hacker@talking-web-level-26:~$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 18:17:40 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{flag-here}
 ```
+
 ## babyhttp level 27
 
 * Include json data in an HTTP request using python
@@ -426,8 +471,10 @@ pwn.college{flag_here}
 ```
 ## babyhttp level 29
 
-```sh
+* Include complex json data in an HTTP request using nc
 
+```sh
+Not yet done!
 ```
 
 ## babyhttp level 30
@@ -644,7 +691,7 @@ print(response.text)
 ```sh
 
 ```
-## babyhttp level 36
+## babyhttp level 38
 
 
 ```sh
