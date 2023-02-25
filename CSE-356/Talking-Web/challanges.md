@@ -697,3 +697,21 @@ print(response.text)
 ```sh
 
 ```
+
+
+## babyhttp level 39
+* Make multiple requests in response to stateful HTTP responses using python
+
+```py
+import requests as re
+
+url = 'http://localhost/'
+headers = {'Content-type': 'application/json'}
+data = {"a": "c61b7eb3605bc2a2fdbbcac920bdd414"}
+response = re.post(url , data=data )
+print(response.text)
+
+hacker@talking-web-level-39:~$ python script.py 
+pwn.college{ElHCcSOaICJCJIBpceCm-tZYiFz.0lNwMzMsEDM3czW}
+
+```
