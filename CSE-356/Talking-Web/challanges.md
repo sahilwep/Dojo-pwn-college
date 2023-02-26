@@ -708,8 +708,102 @@ print(response.text)
 
 * Make multiple requests in response to stateful HTTP responses using curl
 
+* we use `--cookie-jar file_name` to write cookie to file after every operation.
 ```sh
-
+hacker@talking-web-level-37:~$ curl http://localhost -v --cookie-jar file -L
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/2.2.3 Python/3.8.10
+< Date: Sun, 26 Feb 2023 15:57:02 GMT
+< Content-Length: 9
+< Location: /
+< Server: pwn.college
+< Vary: Cookie
+* Added cookie session="eyJzdGF0ZSI6MX0.Y_uBTg.Vh5hzA2akzL0ttNU4qNplqhk2Ts" for domain localhost, path /, expire 0
+< Set-Cookie: session=eyJzdGF0ZSI6MX0.Y_uBTg.Vh5hzA2akzL0ttNU4qNplqhk2Ts; HttpOnly; Path=/
+< Connection: close
+< 
+* Closing connection 0
+* Issue another request to this URL: 'http://localhost/'
+* Hostname localhost was found in DNS cache
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 80 (#1)
+> GET / HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6MX0.Y_uBTg.Vh5hzA2akzL0ttNU4qNplqhk2Ts
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/2.2.3 Python/3.8.10
+< Date: Sun, 26 Feb 2023 15:57:02 GMT
+< Content-Length: 9
+< Location: /
+< Server: pwn.college
+< Vary: Cookie
+* Replaced cookie session="eyJzdGF0ZSI6Mn0.Y_uBTg.dhiAYc_rzDZkAyxL7gafCrNR2pA" for domain localhost, path /, expire 0
+< Set-Cookie: session=eyJzdGF0ZSI6Mn0.Y_uBTg.dhiAYc_rzDZkAyxL7gafCrNR2pA; HttpOnly; Path=/
+< Connection: close
+< 
+* Closing connection 1
+* Issue another request to this URL: 'http://localhost/'
+* Hostname localhost was found in DNS cache
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 80 (#2)
+> GET / HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6Mn0.Y_uBTg.dhiAYc_rzDZkAyxL7gafCrNR2pA
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/2.2.3 Python/3.8.10
+< Date: Sun, 26 Feb 2023 15:57:02 GMT
+< Content-Length: 9
+< Location: /
+< Server: pwn.college
+< Vary: Cookie
+* Replaced cookie session="eyJzdGF0ZSI6M30.Y_uBTg.5ez9-b45j4rb_i7WH8RhjzttMKc" for domain localhost, path /, expire 0
+< Set-Cookie: session=eyJzdGF0ZSI6M30.Y_uBTg.5ez9-b45j4rb_i7WH8RhjzttMKc; HttpOnly; Path=/
+< Connection: close
+< 
+* Closing connection 2
+* Issue another request to this URL: 'http://localhost/'
+* Hostname localhost was found in DNS cache
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 80 (#3)
+> GET / HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6M30.Y_uBTg.5ez9-b45j4rb_i7WH8RhjzttMKc
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Server: Werkzeug/2.2.3 Python/3.8.10
+< Date: Sun, 26 Feb 2023 15:57:02 GMT
+< Content-Length: 57
+< Server: pwn.college
+< Vary: Cookie
+* Replaced cookie session="eyJzdGF0ZSI6NH0.Y_uBTg.VJyQ2_obWTgBa3_5wRC1fHZZp68" for domain localhost, path /, expire 0
+< Set-Cookie: session=eyJzdGF0ZSI6NH0.Y_uBTg.VJyQ2_obWTgBa3_5wRC1fHZZp68; HttpOnly; Path=/
+< Connection: close
+< 
+pwn.college{falg-here}
+* Closing connection 3
 ```
 ## babyhttp level 38
 
