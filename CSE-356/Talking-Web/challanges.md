@@ -492,7 +492,7 @@ Content-Length: 57
 Server: pwn.college
 Connection: close
 
-pwn.college{falg-here}
+pwn.college{flag-here}
 ```sh
 Not yet done!
 ```
