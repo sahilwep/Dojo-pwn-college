@@ -693,6 +693,7 @@ print(response.text)
 ```
 ## babyhttp level 38
 
+* Make multiple requests in response to stateful HTTP responses using nc
 
 ```sh
 
