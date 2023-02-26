@@ -473,6 +473,26 @@ pwn.college{flag_here}
 
 * Include complex json data in an HTTP request using nc
 
+```plain
+GET / HTTP/1.1 
+Host: 127.0.0.1    
+Connection: keep-alive
+Content-Length: 124
+Content-Type: application/json
+session=eyJzdGF0ZSI6MX0.Y_tXwA.-QrYmOJH_WJwbvjVlm3V8eVA3B0
+User-Agent: curl/7.2
+
+{"a": "d5408c3572f4fa2b96b468adee54ffcc", "b": {"c": "e125eb01", "d": ["fe5a38ae", "4f656b5d 9d59575d&05e97632#df66cafb"]}}
+```
+hacker@talking-web-level-29:~$ cat req.txt  | nc localhost 80 
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Sun, 26 Feb 2023 13:13:55 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+
+pwn.college{falg-here}
 ```sh
 Not yet done!
 ```
