@@ -809,18 +809,66 @@ pwn.college{falg-here}
 
 * Make multiple requests in response to stateful HTTP responses using nc
 
+* when i first request with any random cookie, the server send me the cookie file, then is set the cookie header again with new cookie, then i got new cookie.. then again i set this cookie.. then i get again.. then i set then i got the flag.
+
 > req.txt
 
 ```plain
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Length: 42
+Cookie: session=eyJzdGF0ZSI6M30.Y_zgzw.wC6M10J15SSsvX0v8ElhYLhRzLA
+Content-Type: application/json
+User-Agent: curl/7.2
 
+{"a": "d5408c3572f4fa2b96b468adee54ffcc"}
 ```
 
-
+> Challanges
 ```sh
+┌──(rio💀0xveil)-[~]
+└─$ ssh -i ~/tools/dojo/key hacker@dojo.pwn.college
+Connected!                                                                        
+hacker@talking-web-level-38:~$ cat req.txt  | nc localhost 80 -v 
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 302 FOUND
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Mon, 27 Feb 2023 16:56:31 GMT
+Content-Length: 9
+Location: /
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6Mn0.Y_zgvw.1bdmk_lyZ9UrXczQ1ibYG_fMSNE; HttpOnly; Path=/
+Connection: close
 
+state: 2
+hacker@talking-web-level-38:~$ cat req.txt  | nc localhost 80 -v 
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 302 FOUND
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Mon, 27 Feb 2023 16:56:47 GMT
+Content-Length: 9
+Location: /
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6M30.Y_zgzw.wC6M10J15SSsvX0v8ElhYLhRzLA; HttpOnly; Path=/
+Connection: close
 
+state: 3
+hacker@talking-web-level-38:~$ cat req.txt  | nc localhost 80 -v 
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Mon, 27 Feb 2023 16:57:06 GMT
+Content-Length: 57
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6NH0.Y_zg4g.uqoLicGHLakMF1SPkocN6DjqtnQ; HttpOnly; Path=/
+Connection: close
+
+pwn.college{falg-here}
 ```
-
 
 ## babyhttp level 39
 * Make multiple requests in response to stateful HTTP responses using python
@@ -835,6 +883,6 @@ response = re.post(url , data=data )
 print(response.text)
 
 hacker@talking-web-level-39:~$ python script.py 
-pwn.college{ElHCcSOaICJCJIBpceCm-tZYiFz.0lNwMzMsEDM3czW}
+pwn.college{falg-here}
 
 ```
