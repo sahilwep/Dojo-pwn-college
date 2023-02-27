@@ -809,7 +809,15 @@ pwn.college{falg-here}
 
 * Make multiple requests in response to stateful HTTP responses using nc
 
+> req.txt
+
+```plain
+
+```
+
+
 ```sh
+
 
 ```
 
