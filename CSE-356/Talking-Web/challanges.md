@@ -809,7 +809,7 @@ pwn.college{falg-here}
 
 * Make multiple requests in response to stateful HTTP responses using nc
 
-* when i first request with any random cookie, the server send me the cookie file, then is set the cookie header again with new cookie, then i got new cookie.. then again i set this cookie.. then i get again.. then i set then i got the flag.
+* when i first request with any random cookie, the server send me the cookie file, then i set the cookie into header and again request with new cookie, again i got new cookie .. then again i set this cookie into headers.. then again I get new one.. repeating this process until we got the flag.
 
 > req.txt
 
