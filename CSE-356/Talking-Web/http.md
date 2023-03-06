@@ -47,4 +47,40 @@ Content-length: 19
 ## RFC-1945 :
 * RFC-1945 Request for comments that defines `HTTP : hyper text transfer protocol` .
 * The Hypertext Transfer Protocol (HTTP) is an application-level    protocol with the lightness and speed necessary for distributed,    collaborative, hypermedia information systems. It is a generic,    stateless, object-oriented protocol which can be used for many tasks,    such as name servers and distributed object management systems,    through extension of its request methods (commands). A feature of    HTTP is the typing of data representation, allowing systems to be    built independently of the data being transferred.
-* 
+
+
+## HTTP URL Scheme :
+
+```plain
+<scheme>://<host>:<port>/<path>?<query>#<fragment>
+```
+
+* Scheme : protocol used to access the resource.
+* Host : Host that hold the resource.
+* Port : Port for program servicing  resource.
+* Path : Path is directory that holds in the resource in the web page.
+* Query : Information that resource can use.
+* Fragement : Client information about the resource.
+
+## Parameters of HTTP Request : 
+
+* While requesting to http we use diffent parameters to request any web-page.
+* Let's take an example of simple GET Request :
+
+```plain
+GET /any_directory HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Cookie: cookie=1edf04ac5e3cd34b9716ceac6b943a28
+User-Agent: curl/7.2
+```
+* The first line is use `GET` method of HTTPz   
+
+
+## Curl : 
+
+## Nc (Netcat) : 
+
+
+## Python Request : 
+
