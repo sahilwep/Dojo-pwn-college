@@ -78,9 +78,77 @@ User-Agent: curl/7.2
 
 
 ## Curl : 
+* Curl is used for transfer data from or to a server.
+
+```sh
+# Make a req using curl.
+
+$ curl http://hostname -v -i 
+
+# This wiill make a request on hostname and show the details output 
+
+$ curl --help all
+
+# this will give all the switch details which is used in curl.
+
+$ man curl 
+
+# this will open the manual page of curl.
+
+$ curl http://hostname -A "sahilwep" -H "Host: 127.0.0.1"
+
+# -A will use for user-agent header, -H is used for custom header.
+
+$ curl http://hostname --cookie-jar filename.txt
+
+# while intracting with stateful page use  --cookie-jar  header...
+
+$ curl --help all
+
+# explore more....
+```
+
 
 ## Nc (Netcat) : 
 
+* Nc is used to read and write data from across the network.
+
+```sh
+$ cat req.txt
+GET / HTTP/1.1
+Host: 127.0.0.1
+
+$ cat req.txt  | nc localhost 80 -v
+Connection to localhost 80 port [tcp/http] succeeded!
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.3 Python/3.8.10
+Date: Fri, 24 Feb 2023 17:04:28 GMT
+Content-Length: 57
+Server: pwn.college
+Connection: close
+```
+
+* Use `man nc` to get the manual page of nc. 
 
 ## Python Request : 
 
+* Python has module name as `requests` which is used to intract with HTTP network.
+* [requests](https://requests.readthedocs.io/en/latest/)
+
+> Example : 
+
+```py
+import requests as re
+
+url = 'http://hackycorp.com/'
+response = re.get(url)
+
+print(response.text)
+print(response.status_code)
+print(response.url)
+```
+
+* Frist i import request module as re, which is sort name.
+* Then i declare a variable that store the get request..
+* I pass the url into the get request.
+* Then i print the output text, status_code, and the url..
