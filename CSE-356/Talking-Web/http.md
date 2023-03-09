@@ -74,7 +74,10 @@ Connection: keep-alive
 Cookie: cookie=1edf04ac5e3cd34b9716ceac6b943a28
 User-Agent: curl/7.2
 ```
-* The first line is use `GET` method of HTTPz   
+* The first line is use `GET` method of HTTP verb, then we have the directory loaction `/` then the http version that we use for the communication `HTTP/1.1` 
+* Second,third line has `Host` & `connection` header.
+* Forth line has `cookie` header.
+* Last line has user agent header in this i use curl so the it uses curl/7.2.
 
 
 ## Curl : 
