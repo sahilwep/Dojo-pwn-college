@@ -135,7 +135,7 @@ Connection: close
 
 ## Python Request : 
 
-* Python has module name as `requests` which is used to intract with HTTP network.
+* Python has module name as `requests` which is used to interact with HTTP network.
 * [requests](https://requests.readthedocs.io/en/latest/)
 
 > Example : 
