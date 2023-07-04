@@ -499,8 +499,10 @@ SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{passwo
 
 * Example : This script where we use the `LIKE` `"a%"` means, it will match the password letter that start with `a`. But, it results error because it's not matched.
 ```py
-import requests as rq
+import requests
 import string
+
+s = requests.Session()
 
 url = "http://challenge.localhost:80"
 
@@ -525,8 +527,10 @@ print(response, "\n", response.text)
 
 * Example : This script where we use the `LIKE` `"p%"` means, it will match the password letter that start with `a`. The result is `Hello` because it's matched.
 ```py
-import requests as rq
+import requests 
 import string
+
+s = requests.Session()
 
 url = "http://challenge.localhost:80"
 
@@ -563,8 +567,10 @@ SELECT rowid, * FROM users WHERE username = "{username}" AND password = "{passwo
 * After few minutes, we guess some characters : `pwn.college{QIYl7ae`
 
 ```py
-import requests as rq
+import requests
 import string
+
+s = requests.Session()
 
 url = "http://challenge.localhost:80"
 
